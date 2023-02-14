@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/Menu1" android:title = "Agenda"></item>
+
+
+
+    <item android:id="@+id/Menu3" android:title = "Cerrar Sesion">
+
+    </item>
+</menu>
