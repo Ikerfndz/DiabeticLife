@@ -11,9 +11,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ public class Agenda extends Preferencias {
     Button lista;
     Button borrar;
     Button modificar;
+    ImageButton llamar;
 
 
     @Override
@@ -59,16 +62,32 @@ public class Agenda extends Preferencias {
                 Mail = (EditText) findViewById(R.id.Mail_editText);
                 telefono = (EditText) findViewById(R.id.Tel_editText);
 
-                Contacto c = new Contacto(nombre.getText().toString(), direccion.getText().toString(), Mail.getText().toString(), telefono.getText().toString());
-                marksRef.push().setValue(c);
-                Toast.makeText(Agenda.this, "Contacto registrado", Toast.LENGTH_SHORT).show();
-                String vacio ="";
-                nombre.setText(vacio);
-                direccion.setText(vacio);
-                Mail.setText(vacio);
-                telefono.setText(vacio);
+                String nombreStr = nombre.getText().toString();
+                String direccionStr = direccion.getText().toString();
+                String mailStr = Mail.getText().toString();
+                String telefonoStr = telefono.getText().toString();
 
+                if (nombreStr.isEmpty() || direccionStr.isEmpty() || mailStr.isEmpty() || telefonoStr.isEmpty()) {
+                    // Si algún campo está vacío, muestra un mensaje de error
+                    Toast.makeText(Agenda.this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
+                } else if (!telefonoStr.matches("\\d{9}")) {
+                    // Si el número de teléfono no tiene 9 caracteres o no son todos números, muestra un mensaje de error
+                    Toast.makeText(Agenda.this, "Por favor, ingresa un número de teléfono válido (9 caracteres, solo números)", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Si todos los campos están completos y el número de teléfono es válido, crea el contacto y lo agrega a la base de datos
+                    Contacto c = new Contacto(nombreStr, direccionStr, mailStr, telefonoStr);
+                    marksRef.push().setValue(c);
+                    Toast.makeText(Agenda.this, "Contacto registrado", Toast.LENGTH_SHORT).show();
+
+                    // Limpia los campos de texto
+                    nombre.setText("");
+                    direccion.setText("");
+                    Mail.setText("");
+                    telefono.setText("");
+                }
             }
+
+
         });
 
 
@@ -108,13 +127,13 @@ public class Agenda extends Preferencias {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Contacto c;
-                        ArrayAdapter<String> adaptador;
-                        ArrayList<String> listado = new ArrayList<String>();
+                        ArrayAdapter<Contacto> adaptador;
+                        ArrayList<Contacto> listado = new ArrayList<Contacto>();
                         for (DataSnapshot ds: snapshot.getChildren()){
                             c = ds.getValue(Contacto.class);
-                            listado.add("Nombre: " + c.getNombre() + "|| Nº: " + c.getTelefono());
+                            listado.add(c);
                         }
-                        adaptador = new ArrayAdapter<String>(Agenda.this, android.R.layout.simple_list_item_1, listado );
+                        adaptador = new ArrayAdapter<Contacto>(Agenda.this, android.R.layout.simple_list_item_1, listado );
                         lista.setAdapter(adaptador);
                     }
 
@@ -135,6 +154,39 @@ public class Agenda extends Preferencias {
                 direccion = (EditText) findViewById(R.id.Dir_editText);
                 Mail = (EditText) findViewById(R.id.Mail_editText);
                 telefono = (EditText) findViewById(R.id.Tel_editText);
+
+                if (nombre.getText().toString().isEmpty()) {
+                    Toast.makeText(Agenda.this, "Por favor, ingrese el nombre del contacto", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (direccion.getText().toString().isEmpty()) {
+                    Toast.makeText(Agenda.this, "Por favor, ingrese la dirección del contacto", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (Mail.getText().toString().isEmpty()) {
+                    Toast.makeText(Agenda.this, "Por favor, ingrese el correo electrónico del contacto", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (telefono.getText().toString().isEmpty()) {
+                    Toast.makeText(Agenda.this, "Por favor, ingrese el número de teléfono del contacto", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (telefono.getText().toString().length() != 9) {
+                    Toast.makeText(Agenda.this, "Por favor, ingrese un número de teléfono válido (9 dígitos)", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                try {
+                    Long.parseLong(telefono.getText().toString());
+                } catch (NumberFormatException e) {
+                    Toast.makeText(Agenda.this, "Por favor, ingrese solo números en el número de teléfono", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Contacto c = new Contacto(nombre.getText().toString(), direccion.getText().toString(), Mail.getText().toString(), telefono.getText().toString());
 
                 Query q = marksRef.orderByChild("nombre").equalTo(nombre.getText().toString());
@@ -156,6 +208,33 @@ public class Agenda extends Preferencias {
                 });
             }
         });
+
+        ListView lista = findViewById(R.id.lista);
+
+        llamar = (ImageButton) findViewById(R.id.imageButtonLlamar);
+        llamar.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // Obtiene el objeto Contacto seleccionado
+                int position = lista.getCheckedItemPosition();
+                if (position != ListView.INVALID_POSITION) {
+                    Contacto contacto = (Contacto) lista.getItemAtPosition(position);
+
+                    // Obtiene el número de teléfono del objeto Contacto seleccionado
+                    String numero = contacto.getTelefono();
+
+                    // Crea el intent para realizar la llamada telefónica
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + numero));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Seleccione un contacto para llamar", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
     }
 
 

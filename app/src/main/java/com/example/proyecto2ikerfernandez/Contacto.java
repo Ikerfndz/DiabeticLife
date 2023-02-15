@@ -53,11 +53,6 @@ public class Contacto {
 
     @Override
     public String toString() {
-        return "Contacto{" +
-                "nombre='" + nombre + '\'' +
-                ", direccion='" + direccion + '\'' +
-                ", mail='" + mail + '\'' +
-                ", telefono='" + telefono + '\'' +
-                '}';
+        return "Nombre: " + nombre+ "|" +   " Telefono= " + telefono;
     }
 }
