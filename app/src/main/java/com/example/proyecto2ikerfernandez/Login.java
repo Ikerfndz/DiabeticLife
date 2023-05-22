@@ -31,14 +31,15 @@ public class Login extends Preferencias {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        EditText Editmail = (EditText) findViewById(R.id.USU_editText);
-        EditText Editpassword = (EditText) findViewById(R.id.CONTRA_editText);
+        EditText Editmail = (EditText) findViewById(R.id.mail);
+        EditText Editpassword = (EditText) findViewById(R.id.password);
 
-        Button Login = (Button) findViewById(R.id.button2);
-        Button Registro = (Button) findViewById(R.id.button3);
+        Button Login = (Button) findViewById(R.id.loginButton);
+        Button Registro = (Button) findViewById(R.id.registroButton);
 
-        tema = (Switch) findViewById(R.id.switch1);
-        SharedPreferences sp = getSharedPreferences("SP", MODE_PRIVATE);
+
+        // tema = (Switch) findViewById(R.id.switch1);
+       /* SharedPreferences sp = getSharedPreferences("SP", MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         int i = sp.getInt("Theme", 1);
 
@@ -61,64 +62,62 @@ public class Login extends Preferencias {
                 setDayNight();
             }
         });
-
+*/
 
         Registro.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String mail = Editmail.getText().toString();
-                String pass = Editpassword.getText().toString();
-                registrar(mail, pass);
+            public void onClick(View view) {
+                Intent intent = new Intent(Login.this, Registro.class);
+                startActivity(intent);
             }
         });
+
 
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean valido = false;
+
+
                 String mail = Editmail.getText().toString();
+                if (mail.isEmpty()) {
+                    Toast.makeText(Login.this, "Login fallido, mail vacio",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    valido = true;
+                }
+
                 String pass = Editpassword.getText().toString();
-                login(mail, pass);
+                if (pass.isEmpty()) {
+                    Toast.makeText(Login.this, "Login fallido, password vacio",
+                            Toast.LENGTH_SHORT).show();
+                    valido = false;
+                } else {
+                    valido = true;
+                }
+
+
+                if (valido == true) {
+                    login(mail, pass);
+                }
+
             }
         });
 
     }
 
-    private void registrar(String mail, String pass){
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.createUserWithEmailAndPassword(mail, pass)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete (Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            Toast.makeText(Login.this, "Authentication succesful.",
-                                    Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = mAuth.getCurrentUser();
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(Login.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                });
-    }
-
-
-    private void login(String mail, String pass){
+    private void login(String mail, String pass) {
         mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(mail, pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete( Task<AuthResult> task) {
+                    public void onComplete(Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(Login.this, Agenda.class);
+                            Intent intent = new Intent(Login.this, PrincipalApp.class);
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.

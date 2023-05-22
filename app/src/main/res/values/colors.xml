@@ -9,4 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="azulClaro">#A0D3E7</color>
     <color name="azulOscuro">#184073</color>
+    <color name="purple">#8692f7</color>
+    <color name="purple_medioOscuro">#747FD5</color>
+    <color name="purple_masOscurro">#636CB9</color>
+    <color name="fondoPantallas">#E7EAFE</color>
+
 </resources>

@@ -1,7 +1,6 @@
 package com.example.proyecto2ikerfernandez;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -11,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,8 +73,8 @@ public class Agenda extends Preferencias {
                     Toast.makeText(Agenda.this, "Por favor, ingresa un número de teléfono válido (9 caracteres, solo números)", Toast.LENGTH_SHORT).show();
                 } else {
                     // Si todos los campos están completos y el número de teléfono es válido, crea el contacto y lo agrega a la base de datos
-                    Contacto c = new Contacto(nombreStr, direccionStr, mailStr, telefonoStr);
-                    marksRef.push().setValue(c);
+                    //Usuario c = new Usuario(nombreStr, direccionStr, mailStr, telefonoStr);
+                    //marksRef.push().setValue(c);
                     Toast.makeText(Agenda.this, "Contacto registrado", Toast.LENGTH_SHORT).show();
 
                     // Limpia los campos de texto
@@ -96,7 +94,7 @@ public class Agenda extends Preferencias {
             @Override
             public void onClick(View v) {
                 EditText nombre = (EditText) findViewById(R.id.Nombre_editText);
-                Contacto c = new Contacto();
+               //Usuario c = new Usuario();
                 Query q = marksRef.orderByChild("nombre").equalTo(nombre.getText().toString());
                 q.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -122,18 +120,18 @@ public class Agenda extends Preferencias {
             @Override
             public void onClick(View v) {
                 ListView lista = findViewById(R.id.lista);
-                Contacto c = new Contacto();
+                //Usuario c = new Usuario();
                 marksRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Contacto c;
-                        ArrayAdapter<Contacto> adaptador;
-                        ArrayList<Contacto> listado = new ArrayList<Contacto>();
+                        Usuario c;
+                        ArrayAdapter<Usuario> adaptador;
+                        ArrayList<Usuario> listado = new ArrayList<Usuario>();
                         for (DataSnapshot ds: snapshot.getChildren()){
-                            c = ds.getValue(Contacto.class);
+                            c = ds.getValue(Usuario.class);
                             listado.add(c);
                         }
-                        adaptador = new ArrayAdapter<Contacto>(Agenda.this, android.R.layout.simple_list_item_1, listado );
+                        adaptador = new ArrayAdapter<Usuario>(Agenda.this, android.R.layout.simple_list_item_1, listado );
                         lista.setAdapter(adaptador);
                     }
 
@@ -187,7 +185,7 @@ public class Agenda extends Preferencias {
                     return;
                 }
 
-                Contacto c = new Contacto(nombre.getText().toString(), direccion.getText().toString(), Mail.getText().toString(), telefono.getText().toString());
+              //  Usuario c = new Usuario(nombre.getText().toString(), direccion.getText().toString(), Mail.getText().toString(), telefono.getText().toString());
 
                 Query q = marksRef.orderByChild("nombre").equalTo(nombre.getText().toString());
                 q.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -211,58 +209,12 @@ public class Agenda extends Preferencias {
 
         ListView lista = findViewById(R.id.lista);
 
-        llamar = (ImageButton) findViewById(R.id.imageButtonLlamar);
-        llamar.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                // Obtiene el objeto Contacto seleccionado
-                int position = lista.getCheckedItemPosition();
-                if (position != ListView.INVALID_POSITION) {
-                    Contacto contacto = (Contacto) lista.getItemAtPosition(position);
 
-                    // Obtiene el número de teléfono del objeto Contacto seleccionado
-                    String numero = contacto.getTelefono();
-
-                    // Crea el intent para realizar la llamada telefónica
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse("tel:" + numero));
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Seleccione un contacto para llamar", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
 
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menuxml,menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        String mensaje = "";
-        switch (item.getItemId()){
-            case R.id.Menu1:
-                Intent intent = new Intent(getApplicationContext(), Agenda.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.Menu3:
-                Intent intent3 = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent3);
-            default:return super.onOptionsItemSelected(item);
-        }
-    }
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
-        super.onCreateContextMenu(menu,v,menuInfo);
-        MenuInflater inflate = getMenuInflater();
-        inflate.inflate(R.menu.menuxml,menu);
-
-    }
 }

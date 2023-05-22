@@ -13,6 +13,36 @@
         android:theme="@style/Theme.Proyecto2IkerFernandez"
         tools:targetApi="31">
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FactorCorreccion"
+            android:exported="false" />
+        <activity
+            android:name=".Perfil"
+            android:exported="false" />
+        <activity
+            android:name=".FactorCorreccionCHO"
+            android:exported="false" />
+        <activity
+            android:name=".CalculoDosisDiaria"
+            android:exported="false" />
+        <activity
+            android:name=".BuscarDosis"
+            android:exported="false" />
+        <activity
+            android:name=".CalcularInsulina"
+            android:exported="false" />
+        <activity
+            android:name=".RegistrarDosis"
+            android:exported="false" />
+        <activity
+            android:name=".PrincipalApp"
+            android:exported="false" />
+        <activity
+            android:name=".Registro"
+            android:exported="false" />
+        <activity
             android:name=".Preferencias"
             android:exported="false">
             <meta-data
