@@ -20,17 +20,17 @@ Recomendamos encarecidamente que trabajes en estrecha colaboración con tu equip
 Recuerda, el control de la diabetes es altamente personalizado y requiere adaptaciones según tus necesidades cambiantes. Nunca dudes en comunicarte con tu equipo médico si tienes alguna pregunta o inquietud.
 
 ¡Cuídate y sigue trabajando para lograr un buen control de la diabetes!*</string>
-    <string name="user">Mail</string>
-    <string name="nameuser">Nombre</string>
-    <string name="apellidos">Apellidos</string>
-    <string name="telefono">Telefono</string>
+    <string name="user">Mail*</string>
+    <string name="nameuser">Nombre*</string>
+    <string name="apellidos">Apellidos*</string>
+    <string name="telefono">Telefono*</string>
     <string name="fechaNacimiento">Fecha Nacimiento (dd/mm/yyyy)</string>
     <string name="registroButton">Aquí</string>
-    <string name="password">Contraseña</string>
+    <string name="password">Contraseña*</string>
     <string name="registroTxtLogin">¿No estas registrado? Registrate ahora</string>
     <string name="registro">Registro</string>
     <string name="registrarse">Registrarme</string>
-    <string name="passwordRepe">Confirme Contraseña</string>
+    <string name="passwordRepe">Confirme Contraseña*</string>
 
     <string-array name="tipos_dosis">
         <item>Rapida</item>

@@ -13,9 +13,6 @@
         android:theme="@style/Theme.Proyecto2IkerFernandez"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".FactorCorreccion"
             android:exported="false" />
         <activity
@@ -42,20 +39,8 @@
         <activity
             android:name=".Registro"
             android:exported="false" />
-        <activity
-            android:name=".Preferencias"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Agenda"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
+
         <activity
             android:name=".Login"
             android:exported="true">
