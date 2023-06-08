@@ -20,7 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Login extends Preferencias {
+public class Login extends AppCompatActivity{
 
     private FirebaseAuth mAuth;
     Intent intenMain;
@@ -38,31 +38,7 @@ public class Login extends Preferencias {
         Button Registro = (Button) findViewById(R.id.registroButton);
 
 
-        // tema = (Switch) findViewById(R.id.switch1);
-       /* SharedPreferences sp = getSharedPreferences("SP", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        int i = sp.getInt("Theme", 1);
 
-        if(i==1){
-            tema.setChecked(false);
-
-        }else{
-            tema.setChecked(true);
-        }
-        tema.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(tema.isChecked()){
-                    editor.putInt("Theme", 0);
-                }else{
-                    editor.putInt("Theme", 1);
-                }
-                editor.commit();
-                setDayNight();
-            }
-        });
-*/
 
         Registro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,21 +56,23 @@ public class Login extends Preferencias {
 
 
                 String mail = Editmail.getText().toString();
+                String pass = "";
                 if (mail.isEmpty()) {
                     Toast.makeText(Login.this, "Login fallido, mail vacio",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    valido = true;
+
+                     pass = Editpassword.getText().toString();
+                    if (pass.isEmpty()) {
+                        Toast.makeText(Login.this, "Login fallido, password vacio",
+                                Toast.LENGTH_SHORT).show();
+                        valido = false;
+                    } else {
+                        valido = true;
+                    }
                 }
 
-                String pass = Editpassword.getText().toString();
-                if (pass.isEmpty()) {
-                    Toast.makeText(Login.this, "Login fallido, password vacio",
-                            Toast.LENGTH_SHORT).show();
-                    valido = false;
-                } else {
-                    valido = true;
-                }
+
 
 
                 if (valido == true) {
